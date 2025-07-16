@@ -14,6 +14,11 @@ const findById = async (id) => {
   return await Sweet.findById(id);
 };
 
+// Update Sweet by ID (used in purchaseSweet)
+const updateById = async (id, updateData) => {
+  return await Sweet.findByIdAndUpdate(id, updateData, { new: true, runValidators: true });
+};
+
 // Delete Sweet by ID
 const deleteById = async (id) => {
   return await Sweet.findByIdAndDelete(id);
@@ -41,8 +46,9 @@ const searchSweets = async (query) => {
 const SweetService = {
   createSweet,
   findById,
+  updateById,     // ✅ Added for purchaseSweet
   deleteById,
-  searchSweets // ✅ Added for search functionality
+  searchSweets
 };
 
 module.exports = SweetService;
