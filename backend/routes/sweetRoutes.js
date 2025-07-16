@@ -1,12 +1,15 @@
 const express = require('express');
-const { addSweet, deleteSweet } = require('../controllers/sweetController');
+const { addSweet, deleteSweet, searchSweets } = require('../controllers/sweetController');
 
 const router = express.Router();
 
-// ✅ Route: Add sweet
+// ✅ Add new sweet
 router.post('/', addSweet);
 
-// ✅ Route: Delete sweet by ID
+// ✅ Delete a sweet by ID
 router.delete('/:id', deleteSweet);
+
+// ✅ Search sweets by filters (name, category, price range)
+router.get('/search', searchSweets);
 
 module.exports = router;

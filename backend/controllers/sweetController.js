@@ -39,7 +39,17 @@ const deleteSweet = async (req, res) => {
   }
 };
 
+const searchSweets = async (req, res) => {
+  try {
+    const results = await SweetService.searchSweets(req.query);
+    res.status(200).json(results);
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 module.exports = {
   addSweet,
-  deleteSweet
+  deleteSweet,
+  searchSweets
 };
