@@ -1,9 +1,12 @@
 const express = require('express');
-const { addSweet } = require('../controllers/sweetController');
+const { addSweet, deleteSweet } = require('../controllers/sweetController');
 
 const router = express.Router();
 
-// Route: POST /api/sweets
+// ✅ Route: Add sweet
 router.post('/', addSweet);
+
+// ✅ Route: Delete sweet by ID
+router.delete('/:id', deleteSweet);
 
 module.exports = router;

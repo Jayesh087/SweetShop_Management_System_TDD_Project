@@ -12,5 +12,4 @@ const sweetSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 const Sweet = mongoose.model('Sweet', sweetSchema);
-
 module.exports = Sweet;

@@ -25,4 +25,21 @@ const addSweet = async (req, res) => {
   }
 };
 
-module.exports = { addSweet };
+const deleteSweet = async (req, res) => {
+  try {
+    const sweet = await SweetService.findById(req.params.id);
+    if (!sweet) {
+      return res.status(404).json({ success: false, message: 'Sweet not found' });
+    }
+
+    await SweetService.deleteById(req.params.id);
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+module.exports = {
+  addSweet,
+  deleteSweet
+};
