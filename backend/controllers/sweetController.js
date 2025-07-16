@@ -1,11 +1,17 @@
-// controllers/sweetController.js
-import SweetService from '../services/sweetService.js';
+const SweetService = require('../services/sweetService');
 
-export const addSweet = async (req, res) => {
+const addSweet = async (req, res) => {
   try {
     const { name, category, price, quantity } = req.body;
 
-    if (!name || !category || typeof price !== 'number' || typeof quantity !== 'number') {
+    if (
+      !name ||
+      !category ||
+      typeof price !== 'number' ||
+      typeof quantity !== 'number' ||
+      price < 0 ||
+      quantity < 0
+    ) {
       return res.status(400).json({ success: false, message: 'Validation Error' });
     }
 
@@ -18,3 +24,5 @@ export const addSweet = async (req, res) => {
     res.status(500).json({ success: false, message: 'Server Error' });
   }
 };
+
+module.exports = { addSweet };

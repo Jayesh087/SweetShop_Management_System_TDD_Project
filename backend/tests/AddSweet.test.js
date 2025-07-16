@@ -1,5 +1,5 @@
 const supertest = require("supertest");
-const app = require("../server");
+const app = require("../../server");
 const SweetService = require("../services/sweetService");
 jest.mock("../services/sweetService");
 

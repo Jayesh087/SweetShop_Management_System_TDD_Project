@@ -1,5 +1,4 @@
-// services/sweetService.js
-import Sweet from '../models/Sweet.js';
+const Sweet = require('../models/Sweet');
 
 const createSweet = async ({ name, category, price, quantity }) => {
   const existing = await Sweet.findOne({ name });
@@ -10,4 +9,4 @@ const createSweet = async ({ name, category, price, quantity }) => {
 };
 
 const SweetService = { createSweet };
-export default SweetService;
+module.exports = SweetService;

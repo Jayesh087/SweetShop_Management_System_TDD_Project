@@ -1,16 +1,15 @@
-// server.js
-import express from 'express';
-import dotenv from 'dotenv';
-import cors from 'cors';
-import sweetRoutes from './routes/sweetRoutes.js'; // ⬅️ Route file
-import { errorHandler, notFound } from './middleware/errorMiddleware.js';
+const express = require('express');
+const dotenv = require('dotenv');
+const cors = require('cors');
+const sweetRoutes = require('./backend/routes/sweetRoutes');
+const { errorHandler, notFound } = require('./backend/middleware/errorMiddleware');
 
 dotenv.config();
 const app = express();
 
 // Middleware
 app.use(cors());
-app.use(express.json()); // ⬅️ Important for req.body parsing
+app.use(express.json());
 
 // Routes
 app.use('/api/sweets', sweetRoutes);
@@ -19,9 +18,7 @@ app.use('/api/sweets', sweetRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-// Export app for Supertest (don't start server directly)
-export default app;
-
+module.exports = app;
 
 if (process.env.NODE_ENV !== 'test') {
   const PORT = process.env.PORT || 5000;
