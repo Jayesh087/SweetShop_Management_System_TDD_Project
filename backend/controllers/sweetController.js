@@ -109,6 +109,6 @@ module.exports = {
   addSweet,
   deleteSweet,
   searchSweets,
-  purchaseSweet
+  purchaseSweet,
   restockSweet
 };
