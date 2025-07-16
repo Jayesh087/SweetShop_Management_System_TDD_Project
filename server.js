@@ -1,16 +1,29 @@
-const express = require('express');
+// server.js
+import express from 'express';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import sweetRoutes from './routes/sweetRoutes.js'; // ⬅️ Route file
+import { errorHandler, notFound } from './middleware/errorMiddleware.js';
+
+dotenv.config();
 const app = express();
 
-app.use(express.json());
+// Middleware
+app.use(cors());
+app.use(express.json()); // ⬅️ Important for req.body parsing
 
-app.post('/api/v1/sweets/add', (req, res) => {
-  const { name } = req.body;
-  if (!name) return res.status(400).json({ message: 'Name required' });
-  res.status(201).json({ message: 'Sweet added' });
-});
+// Routes
+app.use('/api/sweets', sweetRoutes);
+
+// Error Handling
+app.use(notFound);
+app.use(errorHandler);
+
+// Export app for Supertest (don't start server directly)
+export default app;
+
 
 if (process.env.NODE_ENV !== 'test') {
-  app.listen(5000, () => console.log('Server started on 5000'));
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
 }
-
-module.exports = app;
