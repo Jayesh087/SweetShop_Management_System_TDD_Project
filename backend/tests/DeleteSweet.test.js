@@ -5,7 +5,7 @@ const SweetService = require('../services/sweetService');
 jest.mock('../services/sweetService');
 
 
-describe('🍬 Delete Sweet API', () => {
+describe('Delete Sweet API', () => {
   beforeEach(() => jest.clearAllMocks());
 
   // 🔴 Red Phase: Sweet not found
