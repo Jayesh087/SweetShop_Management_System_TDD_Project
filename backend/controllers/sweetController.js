@@ -50,24 +50,23 @@ const searchSweets = async (req, res) => {
 
 const purchaseSweet = async (req, res) => {
   try {
-    const sweet = await SweetService.findById(req.params.id);
+    const { id, quantity } = req.body;
+
+    const sweet = await SweetService.findById(id);
     if (!sweet) {
       return res.status(404).json({ success: false, message: "Sweet not found" });
     }
-
-    const { quantity } = req.body;
 
     if (!quantity || typeof quantity !== "number" || quantity <= 0) {
       return res.status(400).json({ success: false, message: "Invalid quantity" });
     }
 
     if (sweet.quantity < quantity) {
-      return res.status(400).json({ success: false, message: "Insufficient stock" });
+      return res.status(400).json({ success: false, message: "Insufficient stock" }); // ✅ Fixed message
     }
 
     sweet.quantity -= quantity;
-
-    const updatedSweet = await SweetService.updateById(req.params.id, sweet);
+    const updatedSweet = await SweetService.updateById(id, sweet);
 
     res.status(200).json({
       success: true,
@@ -79,9 +78,37 @@ const purchaseSweet = async (req, res) => {
   }
 };
 
+const restockSweet = async (req, res) => {
+  try {
+    const { id, quantity } = req.body;
+
+    // ✅ Validate quantity first (before DB lookup)
+    if (!quantity || typeof quantity !== "number" || quantity <= 0) {
+      return res.status(400).json({ success: false, message: "Invalid quantity" });
+    }
+
+    const sweet = await SweetService.findById(id);
+    if (!sweet) {
+      return res.status(404).json({ success: false, message: "Sweet not found" });
+    }
+
+    sweet.quantity += quantity;
+    const updatedSweet = await SweetService.updateById(id, sweet);
+
+    res.status(200).json({
+      success: true,
+      message: "Restock successful",
+      updatedSweet
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
 module.exports = {
   addSweet,
   deleteSweet,
   searchSweets,
-  purchaseSweet // ✅ Exported new controller
+  purchaseSweet
+  restockSweet
 };

@@ -3,7 +3,8 @@ const {
   addSweet,
   deleteSweet,
   searchSweets,
-  purchaseSweet // ✅ import added
+  purchaseSweet,
+  restockSweet // ✅ import added
 } = require('../controllers/sweetController');
 
 const router = express.Router();
@@ -17,7 +18,10 @@ router.delete('/:id', deleteSweet);
 // ✅ Search sweets by filters (name, category, price range)
 router.get('/search', searchSweets);
 
-// ✅ Purchase sweet by ID
-router.post('/:id/purchase', purchaseSweet); // ✅ NEW route added
+// ✅ Purchase sweet
+router.post('/:id/purchase', purchaseSweet);
+// ✅ Restock sweet
+router.post('/restock', restockSweet);
+
 
 module.exports = router;

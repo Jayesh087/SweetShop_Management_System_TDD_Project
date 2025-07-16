@@ -1,6 +1,6 @@
 const Sweet = require('../models/Sweet');
 
-// Add Sweet
+// ✅ Add a new sweet
 const createSweet = async ({ name, category, price, quantity }) => {
   const existing = await Sweet.findOne({ name });
   if (existing) throw new Error('Sweet already exists');
@@ -9,31 +9,36 @@ const createSweet = async ({ name, category, price, quantity }) => {
   return await sweet.save();
 };
 
-// Find Sweet by ID
+// ✅ Find sweet by ID (used in delete, purchase, restock)
 const findById = async (id) => {
   return await Sweet.findById(id);
 };
 
-// Update Sweet by ID (used in purchaseSweet)
+// ✅ Update sweet by ID (used in both purchase & restock)
 const updateById = async (id, updateData) => {
-  return await Sweet.findByIdAndUpdate(id, updateData, { new: true, runValidators: true });
+  return await Sweet.findByIdAndUpdate(id, updateData, {
+    new: true,
+    runValidators: true
+  });
 };
 
-// Delete Sweet by ID
+// ✅ Delete a sweet by ID
 const deleteById = async (id) => {
   return await Sweet.findByIdAndDelete(id);
 };
 
-// Search sweets by filters (name, category, price range)
+// ✅ Search sweets by filters
 const searchSweets = async (query) => {
   const searchQuery = {};
 
   if (query.name) {
-    searchQuery.name = new RegExp(query.name, 'i'); // case-insensitive partial match
+    searchQuery.name = new RegExp(query.name, 'i'); // case-insensitive match
   }
+
   if (query.category) {
     searchQuery.category = query.category;
   }
+
   if (query.minPrice || query.maxPrice) {
     searchQuery.price = {};
     if (query.minPrice) searchQuery.price.$gte = Number(query.minPrice);
@@ -46,7 +51,7 @@ const searchSweets = async (query) => {
 const SweetService = {
   createSweet,
   findById,
-  updateById,     // ✅ Added for purchaseSweet
+  updateById,
   deleteById,
   searchSweets
 };

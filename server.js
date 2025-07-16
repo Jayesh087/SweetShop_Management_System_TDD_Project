@@ -1,8 +1,11 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const cors = require('cors');
-const sweetRoutes = require('./backend/routes/sweetRoutes');
-const { errorHandler, notFound } = require('./backend/middleware/errorMiddleware');
+const express = require("express");
+const dotenv = require("dotenv");
+const cors = require("cors");
+const sweetRoutes = require("./backend/routes/sweetRoutes");
+const {
+  errorHandler,
+  notFound,
+} = require("./backend/middleware/errorMiddleware");
 
 dotenv.config();
 
@@ -18,7 +21,7 @@ app.get("/", (req, res) => {
 });
 
 // 📦 Sweet APIs
-app.use('/api/sweets', sweetRoutes);
+app.use("/api/sweets", sweetRoutes);
 
 // ❌ Handle 404s
 app.use(notFound);
@@ -30,7 +33,7 @@ app.use(errorHandler);
 module.exports = app;
 
 // 🚀 Start server if not in test mode
-if (process.env.NODE_ENV !== 'test') {
+if (process.env.NODE_ENV !== "test") {
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
 }
