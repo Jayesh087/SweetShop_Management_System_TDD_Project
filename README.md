@@ -26,10 +26,10 @@ Adds a new sweet to the shop's inventory.
 **Request Body:**
 ```json
 {
-    "name": "Sweet Name",
-    "category": "Category Name",
-    "price": 100,
-    "availableStock": 10
+    "name": "Kaju Katli",
+    "category": "Nut-Based",
+    "price": 50,
+    "availableStock": 20
 }
 ```
 **Response:**
@@ -38,10 +38,10 @@ Adds a new sweet to the shop's inventory.
     "message": "Sweet added successfully",
     "success": true,
     "sweet": {
-        "name": "Sweet Name",
-        "category": "Category Name",
-        "price": 100,
-        "availableStock": 10
+        "name": "Kaju Katli",
+        "category": "Nut-Based",
+        "price": 50,
+        "availableStock": 20
     }
 }
 ```
@@ -52,7 +52,7 @@ Deletes a sweet from the shop's inventory.
 **Request Body:**
 ```json
 {
-    "sweetId": "sweet-id-here"
+    "sweetId": "1001"
 }
 ```
 **Response:**
@@ -68,7 +68,7 @@ Purchases a sweet from the shop.
 **Request Body:**
 ```json
 {
-    "sweetId": "sweet-id-here",
+    "sweetId": "1001",
     "quantity": 2
 }
 ```
@@ -77,10 +77,10 @@ Purchases a sweet from the shop.
 {
     "message": "Sweet purchased successfully",
     "updatedSweet": {
-        "name": "Sweet Name",
-        "category": "Category Name",
-        "price": 100,
-        "availableStock": 8
+        "name": "Kaju-Katli",
+        "category": "Nut-Based",
+        "price": 50,
+        "availableStock": 18
     }
 }
 ```
@@ -91,7 +91,7 @@ Restocks a sweet in the shop's inventory.
 **Request Body:**
 ```json
 {
-    "sweetId": "sweet-id-here",
+    "sweetId": "1001",
     "quantity": 5
 }
 ```
@@ -100,10 +100,10 @@ Restocks a sweet in the shop's inventory.
 {
     "message": "Sweet restocked successfully",
     "updatedSweet": {
-        "name": "Sweet Name",
-        "category": "Category Name",
-        "price": 100,
-        "availableStock": 15
+        "name": "Kaju-Katli",
+        "category": "Nut-Based",
+        "price": 50,
+        "availableStock": 23
     }
 }
 ```
@@ -116,12 +116,11 @@ Retrieves a list of all sweets in the shop.
 {
     "allSweets": [
         {
-            "name": "Sweet Name",
-            "category": "Category Name",
-            "price": 100,
-            "availableStock": 10
-        },
-        ...
+            "name": "Kaju-Katli",
+            "category": "Nut-Based",
+            "price": 50,
+            "availableStock": 23
+        }
     ]
 }
 ```
@@ -134,30 +133,11 @@ Retrieves a list of sweets that are currently available for purchase.
 {
     "availableSweets": [
         {
-            "name": "Sweet Name",
-            "category": "Category Name",
-            "price": 100,
-            "availableStock": 10
-        },
-        ...
+            "name": "Kaju-Katli",
+            "category": "Nut-Based",
+            "price": 50,
+            "availableStock": 23
+        }
     ]
 }
 ```
-
-## Test Cases Passed:
-![Test Cases Snapshot](Photo)
-
-## UI Screenshots
-
-### Home Page
-![Home Page](Photo)
-
-### Add Sweet Page
-![Add Sweet Page](Photo)
-
-### Purchase Sweet Page
-![Purchase Sweet Page](Photo)
-
-### Restock Sweet Page
-![Restock Sweet Page](Photo)
-
