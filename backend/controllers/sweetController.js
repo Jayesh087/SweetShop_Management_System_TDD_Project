@@ -50,7 +50,8 @@ const searchSweets = async (req, res) => {
 
 const purchaseSweet = async (req, res) => {
   try {
-    const { id, quantity } = req.body;
+    const { id } = req.params;
+    const { quantity } = req.body;
 
     const sweet = await SweetService.findById(id);
     if (!sweet) {
@@ -62,7 +63,7 @@ const purchaseSweet = async (req, res) => {
     }
 
     if (sweet.quantity < quantity) {
-      return res.status(400).json({ success: false, message: "Insufficient stock" }); // ✅ Fixed message
+      return res.status(400).json({ success: false, message: "Insufficient stock" });
     }
 
     sweet.quantity -= quantity;
@@ -80,9 +81,9 @@ const purchaseSweet = async (req, res) => {
 
 const restockSweet = async (req, res) => {
   try {
-    const { id, quantity } = req.body;
+    const { id } = req.params;
+    const { quantity } = req.body;
 
-    // ✅ Validate quantity first (before DB lookup)
     if (!quantity || typeof quantity !== "number" || quantity <= 0) {
       return res.status(400).json({ success: false, message: "Invalid quantity" });
     }

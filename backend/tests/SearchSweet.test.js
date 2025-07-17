@@ -1,4 +1,3 @@
-// backend/tests/SearchSweet.test.js
 const supertest = require('supertest');
 const app = require('../../server');
 const SweetService = require('../services/sweetService');
@@ -13,7 +12,7 @@ describe('Search Sweet API', () => {
     { name: 'Ladoo', category: 'Nut-Based', price: 30 }
   ];
 
-  // 🟢 Search by name
+  // Search by name
   test('should return sweets matching partial name', async () => {
     SweetService.searchSweets.mockResolvedValue([sweets[1]]);
 
@@ -25,7 +24,7 @@ describe('Search Sweet API', () => {
     expect(res.body[0].name.toLowerCase()).toContain('jamun');
   });
 
-  // 🟢 Search by category
+  // Search by category
   test('should return sweets by category match', async () => {
     SweetService.searchSweets.mockResolvedValue([sweets[0], sweets[2]]);
 
@@ -36,7 +35,7 @@ describe('Search Sweet API', () => {
     expect(res.body.every(item => item.category === 'Nut-Based')).toBe(true);
   });
 
-  // 🟢 Search by price range
+  // Search by price range
   test('should return sweets within price range', async () => {
     SweetService.searchSweets.mockResolvedValue([sweets[1], sweets[2]]);
 
@@ -47,7 +46,7 @@ describe('Search Sweet API', () => {
     expect(res.body.every(s => s.price >= 10 && s.price <= 35)).toBe(true);
   });
 
-  // 🟢 Search by combined filters
+  // Search by combined filters
   test('should return sweets by name, category, and price', async () => {
     SweetService.searchSweets.mockResolvedValue([sweets[0]]);
 
@@ -60,7 +59,7 @@ describe('Search Sweet API', () => {
     expect(res.body[0].category).toBe('Nut-Based');
   });
 
-  // 🔴 No matches found
+  // No matches found
   test('should return empty array for unmatched query', async () => {
     SweetService.searchSweets.mockResolvedValue([]);
 
@@ -71,7 +70,7 @@ describe('Search Sweet API', () => {
     expect(res.body).toEqual([]);
   });
 
-  // 🔴 Handle service error
+  // Handle service error
   test('should handle internal server error', async () => {
     SweetService.searchSweets.mockImplementation(() => {
       throw new Error('Unexpected failure');

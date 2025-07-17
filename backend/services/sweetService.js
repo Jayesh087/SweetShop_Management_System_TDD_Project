@@ -1,6 +1,5 @@
 const Sweet = require('../models/Sweet');
 
-// ✅ Add a new sweet
 const createSweet = async ({ name, category, price, quantity }) => {
   const existing = await Sweet.findOne({ name });
   if (existing) throw new Error('Sweet already exists');
@@ -9,30 +8,29 @@ const createSweet = async ({ name, category, price, quantity }) => {
   return await sweet.save();
 };
 
-// ✅ Find sweet by ID (used in delete, purchase, restock)
 const findById = async (id) => {
+  if (!id || !id.match(/^[0-9a-fA-F]{24}$/)) return null; // handle invalid ObjectId
   return await Sweet.findById(id);
 };
 
-// ✅ Update sweet by ID (used in both purchase & restock)
 const updateById = async (id, updateData) => {
+  if (!id || !id.match(/^[0-9a-fA-F]{24}$/)) return null;
   return await Sweet.findByIdAndUpdate(id, updateData, {
     new: true,
     runValidators: true
   });
 };
 
-// ✅ Delete a sweet by ID
 const deleteById = async (id) => {
+  if (!id || !id.match(/^[0-9a-fA-F]{24}$/)) return null;
   return await Sweet.findByIdAndDelete(id);
 };
 
-// ✅ Search sweets by filters
 const searchSweets = async (query) => {
   const searchQuery = {};
 
   if (query.name) {
-    searchQuery.name = new RegExp(query.name, 'i'); // case-insensitive match
+    searchQuery.name = new RegExp(query.name, 'i'); // case-insensitive partial match
   }
 
   if (query.category) {

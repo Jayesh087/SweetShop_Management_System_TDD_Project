@@ -1,57 +1,63 @@
-const request = require("supertest");
-const app = require("../../server"); // Or "../app" if app and server are split
-const SweetService = require("../services/sweetService");
+const supertest = require('supertest');
+const app = require('../../server');
+const SweetService = require('../services/sweetService');
+jest.mock('../services/sweetService');
 
-jest.mock("../services/sweetService");
+describe('Purchase Sweet API', () => {
+  beforeEach(() => jest.clearAllMocks());
 
-describe("POST /api/sweets/:id/purchase", () => {
-  const sweetId = "64a8a2b3f2764c001234abcd"; // mock ObjectId
-  const existingSweet = {
-    _id: sweetId,
-    name: "Kaju Katli",
-    category: "Traditional",
-    price: 300,
-    quantity: 10
-  };
-
-  it("should return 404 if sweet not found", async () => {
+  // Red: Sweet not found
+  test('should return 404 if sweet does not exist', async () => {
     SweetService.findById.mockResolvedValue(null);
 
-    const res = await request(app)
-      .post(`/api/sweets/${sweetId}/purchase`)
-      .send({ quantity: 5 });
+    const res = await supertest(app)
+      .post('/api/sweets/abc123/purchase') // ✅ FIXED ROUTE
+      .send({ quantity: 3 });
 
     expect(res.statusCode).toBe(404);
     expect(res.body.success).toBe(false);
-    expect(res.body.message).toBe("Sweet not found");
+    expect(res.body.message).toBe('Sweet not found');
   });
 
-  it("should return 400 if not enough stock", async () => {
-    SweetService.findById.mockResolvedValue({ ...existingSweet });
+  // Red: Insufficient stock
+  test('should return 400 if stock is insufficient', async () => {
+    SweetService.findById.mockResolvedValue({ _id: 'abc123', name: 'Barfi', quantity: 2 });
 
-    const res = await request(app)
-      .post(`/api/sweets/${sweetId}/purchase`)
-      .send({ quantity: 20 }); // greater than available
+    const res = await supertest(app)
+      .post('/api/sweets/abc123/purchase')
+      .send({ quantity: 5 });
 
     expect(res.statusCode).toBe(400);
     expect(res.body.success).toBe(false);
-    expect(res.body.message).toBe("Insufficient stock");
+    expect(res.body.message).toBe('Insufficient stock'); // ✅ MATCH CONTROLLER
   });
 
-  it("should purchase sweet successfully", async () => {
-    SweetService.findById.mockResolvedValue({ ...existingSweet });
-    SweetService.updateById.mockResolvedValue({
-      ...existingSweet,
-      quantity: 5 // After purchase
-    });
+  //  Green: Purchase successful
+  test('should successfully purchase sweet and reduce stock', async () => {
+    const sweetBefore = { _id: 'abc123', name: 'Barfi', quantity: 10 };
+    const sweetAfter = { ...sweetBefore, quantity: 7 };
 
-    const res = await request(app)
-      .post(`/api/sweets/${sweetId}/purchase`)
-      .send({ quantity: 5 });
+    SweetService.findById.mockResolvedValue(sweetBefore);
+    SweetService.updateById.mockResolvedValue(sweetAfter); // ✅ FIXED METHOD
+
+    const res = await supertest(app)
+      .post('/api/sweets/abc123/purchase')
+      .send({ quantity: 3 });
 
     expect(res.statusCode).toBe(200);
     expect(res.body.success).toBe(true);
-    expect(res.body.message).toBe("Purchase successful");
-    expect(res.body.updatedSweet.quantity).toBe(5);
+    expect(res.body.updatedSweet.quantity).toBe(7);
+    expect(res.body.message).toBe('Purchase successful');
+  });
+
+  // Red: Invalid quantity
+  test('should return 400 if quantity is not a positive number', async () => {
+    const res = await supertest(app)
+      .post('/api/sweets/abc123/purchase')
+      .send({ quantity: -5 });
+
+    expect(res.statusCode).toBe(400);
+    expect(res.body.success).toBe(false);
+    expect(res.body.message).toBe('Invalid quantity');
   });
 });

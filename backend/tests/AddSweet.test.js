@@ -8,7 +8,7 @@ describe("🍬 Add Sweet API", () => {
     jest.clearAllMocks();
   });
 
-  // 🔴 RED PHASE - INVALID CASES
+  // RED PHASE - INVALID CASES
   test("should fail when name is missing", async () => {
     const sweet = {
       category: "Candy",
@@ -38,7 +38,7 @@ describe("🍬 Add Sweet API", () => {
     expect(res.body.message).toBe("Validation Error");
   });
 
-  // 🟢 GREEN PHASE - VALID CASE
+  //  GREEN PHASE - VALID CASE
   test("should add sweet with valid data", async () => {
     const newSweet = {
       name: "Jalebi",
@@ -61,7 +61,7 @@ describe("🍬 Add Sweet API", () => {
     expect(res.body.newSweet.name).toBe("Jalebi");
   });
 
-  // ♻️ EXTRA: Should not allow duplicate sweet name
+  //  EXTRA: Should not allow duplicate sweet name
   test("should fail if sweet already exists", async () => {
     const duplicateSweet = {
       name: "Jalebi",
@@ -82,7 +82,7 @@ describe("🍬 Add Sweet API", () => {
     expect(res.body.message).toBe("Sweet already exists");
   });
 
-  // ♻️ PERFORMANCE CHECK
+  //  PERFORMANCE CHECK
   test("should respond within 1 second", async () => {
     const sweet = {
       name: "Kaju Katli",

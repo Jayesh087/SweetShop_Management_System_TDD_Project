@@ -1,4 +1,3 @@
-// backend/tests/DeleteSweet.test.js
 const supertest = require('supertest');
 const app = require('../../server');
 const SweetService = require('../services/sweetService');
@@ -8,7 +7,7 @@ jest.mock('../services/sweetService');
 describe('Delete Sweet API', () => {
   beforeEach(() => jest.clearAllMocks());
 
-  // 🔴 Red Phase: Sweet not found
+  //  Red Phase: Sweet not found
   test('should return 404 if sweet does not exist', async () => {
     SweetService.findById.mockResolvedValue(null);
 
@@ -21,7 +20,7 @@ describe('Delete Sweet API', () => {
     expect(res.body.message).toBe('Sweet not found');
   });
 
-  // 🟢 Green Phase: Successfully delete sweet
+  // Green Phase: Successfully delete sweet
   test('should successfully delete a sweet', async () => {
     SweetService.findById.mockResolvedValue({ _id: 'abc123', name: 'Jalebi' });
     SweetService.deleteById.mockResolvedValue(true);
@@ -33,7 +32,7 @@ describe('Delete Sweet API', () => {
     expect(res.statusCode).toBe(204);
   });
 
-  // 🔴 Red Phase: Invalid ID format
+  // Red Phase: Invalid ID format
   test('should handle invalid ID format', async () => {
     SweetService.findById.mockImplementation(() => {
       throw new Error('Cast to ObjectId failed');
