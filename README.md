@@ -141,3 +141,8 @@ Retrieves a list of sweets that are currently available for purchase.
     ]
 }
 ```
+
+## All testCase Are Passed 
+
+<img width="514" height="150" alt="Screenshot 2025-07-17 130926" src="https://github.com/user-attachments/assets/cb1b2d0d-dfd7-48b8-98d3-e18595581858" />
+
